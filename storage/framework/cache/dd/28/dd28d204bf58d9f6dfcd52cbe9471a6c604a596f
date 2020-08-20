@@ -1,0 +1,463 @@
+1597391599a:1:{s:14:"blogs-list.htm";a:13:{s:8:"fileName";s:14:"blogs-list.htm";s:7:"content";s:12929:"title = "Danh Sách Blog-list"
+url = "/tin-tuc/:slug?"
+layout = "main"
+is_hidden = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = "{{ :slug }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog-detail"
+postPage = "blog-detail"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blog-detail"
+
+[blogTagSearch]
+tag = "tin nóng"
+page = "1"
+resultsPerPage = 5
+postPage = "blog-detail"
+categoryPage = "blog-detail"
+
+[blogTags]
+results = 5
+orderBy = 0
+direction = "desc"
+
+==
+<?php
+function onStart(){
+    if(isset($_GET["view"]))$this->page['view'] = $_GET["view"];
+    if(isset($_GET["search"]))$this->page['search'] = $_GET["search"];
+}
+?>
+==
+<!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+
+    <!-- ##### Breadcrumb Area Start ##### -->
+    <div class="vizew-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{'index'|page({slug:post.slug})}}"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                            
+                            <li class="breadcrumb-item"><a href="">{{category.name}}</a></li>
+                            {% if category.name |length %}
+                            <li class="breadcrumb-item " aria-current="page">{{children.name}}</li>
+                            {% endif %}
+                           
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Archive List Posts Area Start ##### -->
+    <div class="vizew-archive-list-posts-area mb-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <!-- Archive Catagory & View Options -->
+                   
+                    <div class="archive-catagory-view mb-50 d-flex align-items-center justify-content-between">
+                        <!-- Catagory -->
+                        <div class="archive-catagory">
+                            <h4><i class="" aria-hidden="true"></i> {{category.name}} </h4>
+                        </div>
+                        <!-- View Options -->
+                        <div class="view-options">
+
+                            <a href="{{'blogs-list'|page}}?view=grid{% if this.page.search %}&search={{this.page.search}}{% endif %}&page={{blogPosts.posts.currentPage}}"{% if this.page.view != 'list' %} class="active"{% endif %}><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                            <a href="{{'blogs-list'|page}}?view=list{% if this.page.search %}&search={{this.page.search}}{% endif %}&page={{blogPosts.posts.currentPage}}"{% if this.page.view == 'list' %} class="active"{% endif %}><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    
+                    {% if this.page.search %}
+                    <div class="col-12 mb-3">
+                        <h5>{{'Tìm kiếm cho'|_}} "{{this.page.search}}"{% if category %} {{'trong danh mục'|_}}
+                            "{{category.name}}"{% endif %}: </h5>
+                    </div>
+                    {% endif %}
+
+                    <!-- Single Post Area -->
+                    {% if this.page.view == 'list' %}
+                    {% for post in blogPosts.posts %}
+                    <div class="single-post-area style-2">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6">
+                                <!-- Post Thumbnail -->
+                                <div class="post-thumbnail">
+                                    <img src="{{post.featured_images[0].getThumb(350, 207, 'crop')}}" alt="">
+
+                                    <!-- Video Duration -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <!-- Post Content -->
+                                <div class="post-content mt-0">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title mb-2">{{post.title}}</a>
+                                    <div class="post-meta d-flex align-items-center mb-2">
+                                        <i class="fa fa-circle" aria-hidden="true"></i>
+                                        <a href="#" class="post-date">{{post.created_at|date('d/m/Y')}}</a>
+                                    </div>
+                                    <p class="mb-2">{{ post.summary | striptags | truncate(100) }}</p>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-12 mb-3">
+                        <h5>{{'Không có kết quả nào phù hợp'|_}}</h5>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+
+                    <div class="row">                        
+                        <!-- Single Blog Post -->                     
+                        {% for post in blogPosts.posts %}
+                        <div class="col-12 col-md-6">                            
+                            <div class="single-post-area mb-50">
+                                <!-- Post Thumbnail -->                                
+                                <div class="post-thumbnail">                                   
+                                    <img src=" {{post.featured_images[0].getThumb(350, 207, 'crop')}} "alt="">
+                                </div>   
+                              <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{ post.title }}</a>
+                                    
+                                    <p class="mb-2">{{ post.summary | striptags | truncate(100) }}</p>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs'|page({c:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>                           
+                        </div>
+                        {% else %}
+                        <div class="col-12 mb-3">
+                            <h5>{{'Không có kết quả nào phù hợp'|_}}</h5>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                 
+                    
+                    {% if blogPosts.posts.total>0 %}
+                    <nav class="mt-50">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item"><a class="page-link" {% if blogPosts.posts.currentPage > 1 %}href="{{ 'blogs-list'|page}}?page={{blogPosts.posts.currentPage - 1}}{% if search %}&search={{search}}{% endif %}"
+                                {% else %}href="#" {% endif %}><i class="fa fa-angle-left"></i></a></li>
+                                {% set applyDot = true %}
+                                {% for page in 1..blogPosts.posts.lastPage %}
+                                {% if page==1 or page == blogPosts.posts.lastPage or (page >= blogPosts.posts.currentPage-1 and page <= blogPosts.posts.currentPage+1)  %}
+                                {% if blogPosts.posts.currentPage == page %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{page}}</a></li>
+                                {% else %}
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ 'blogs-list'|page}}?page={{page}}{% if search %}&search={{search}}{% endif %}">{{page}}</a>
+                                </li>
+                                {% endif %}
+                                {% set applyDot = true %}
+                                {% else %}
+                                {% if applyDot == true %}
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                {% set applyDot = false %}
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            <li class="page-item"><a class="page-link" {% if blogPosts.posts.currentPage < blogPosts.posts.lastPage %}href="{{ 'blogs-list'|page}}?page={{blogPosts.posts.currentPage + 1}}{% if search %}&search={{search}}{% endif %}"
+                                {% else %}href="#" {% endif %}><i class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-widget latest-video-widget mb-50">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2 mb-30">
+                            <h5>{{'Tin nóng'|_}}</h5>
+                            <div class="line"></div>
+                        </div>                    
+                        {% for post in blogTagSearch.posts| slice(0, 6) %}
+                        <!-- Single Blog Post -->
+                        <div class="single-blog-post d-flex">
+                            <div class="post-thumbnail">
+                                <img src="{{post.featured_images[0].getThumb(350, 208, 'crop')}} " alt="">
+                            </div>
+                            <div class="post-content">
+                                <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                <div class="post-meta d-flex justify-content-between">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if blogTags.tags|length %}
+                    <div class="single-widget">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2 mb-30">
+                    <h5>{{'Tags'|_}}</h5>
+                    <div class="line"></div>
+                    </div>
+                    
+                    <ul class="tag_list">
+                    {% for tag in blogTags.tags %}
+                    <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>";s:5:"mtime";i:1597119653;s:6:"markup";s:12163:"<!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+
+    <!-- ##### Breadcrumb Area Start ##### -->
+    <div class="vizew-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{'index'|page({slug:post.slug})}}"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                            
+                            <li class="breadcrumb-item"><a href="">{{category.name}}</a></li>
+                            {% if category.name |length %}
+                            <li class="breadcrumb-item " aria-current="page">{{children.name}}</li>
+                            {% endif %}
+                           
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Archive List Posts Area Start ##### -->
+    <div class="vizew-archive-list-posts-area mb-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <!-- Archive Catagory & View Options -->
+                   
+                    <div class="archive-catagory-view mb-50 d-flex align-items-center justify-content-between">
+                        <!-- Catagory -->
+                        <div class="archive-catagory">
+                            <h4><i class="" aria-hidden="true"></i> {{category.name}} </h4>
+                        </div>
+                        <!-- View Options -->
+                        <div class="view-options">
+
+                            <a href="{{'blogs-list'|page}}?view=grid{% if this.page.search %}&search={{this.page.search}}{% endif %}&page={{blogPosts.posts.currentPage}}"{% if this.page.view != 'list' %} class="active"{% endif %}><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                            <a href="{{'blogs-list'|page}}?view=list{% if this.page.search %}&search={{this.page.search}}{% endif %}&page={{blogPosts.posts.currentPage}}"{% if this.page.view == 'list' %} class="active"{% endif %}><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    
+                    {% if this.page.search %}
+                    <div class="col-12 mb-3">
+                        <h5>{{'Tìm kiếm cho'|_}} "{{this.page.search}}"{% if category %} {{'trong danh mục'|_}}
+                            "{{category.name}}"{% endif %}: </h5>
+                    </div>
+                    {% endif %}
+
+                    <!-- Single Post Area -->
+                    {% if this.page.view == 'list' %}
+                    {% for post in blogPosts.posts %}
+                    <div class="single-post-area style-2">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6">
+                                <!-- Post Thumbnail -->
+                                <div class="post-thumbnail">
+                                    <img src="{{post.featured_images[0].getThumb(350, 207, 'crop')}}" alt="">
+
+                                    <!-- Video Duration -->
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <!-- Post Content -->
+                                <div class="post-content mt-0">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title mb-2">{{post.title}}</a>
+                                    <div class="post-meta d-flex align-items-center mb-2">
+                                        <i class="fa fa-circle" aria-hidden="true"></i>
+                                        <a href="#" class="post-date">{{post.created_at|date('d/m/Y')}}</a>
+                                    </div>
+                                    <p class="mb-2">{{ post.summary | striptags | truncate(100) }}</p>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-12 mb-3">
+                        <h5>{{'Không có kết quả nào phù hợp'|_}}</h5>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+
+                    <div class="row">                        
+                        <!-- Single Blog Post -->                     
+                        {% for post in blogPosts.posts %}
+                        <div class="col-12 col-md-6">                            
+                            <div class="single-post-area mb-50">
+                                <!-- Post Thumbnail -->                                
+                                <div class="post-thumbnail">                                   
+                                    <img src=" {{post.featured_images[0].getThumb(350, 207, 'crop')}} "alt="">
+                                </div>   
+                              <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{ post.title }}</a>
+                                    
+                                    <p class="mb-2">{{ post.summary | striptags | truncate(100) }}</p>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs'|page({c:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>                           
+                        </div>
+                        {% else %}
+                        <div class="col-12 mb-3">
+                            <h5>{{'Không có kết quả nào phù hợp'|_}}</h5>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                 
+                    
+                    {% if blogPosts.posts.total>0 %}
+                    <nav class="mt-50">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item"><a class="page-link" {% if blogPosts.posts.currentPage > 1 %}href="{{ 'blogs-list'|page}}?page={{blogPosts.posts.currentPage - 1}}{% if search %}&search={{search}}{% endif %}"
+                                {% else %}href="#" {% endif %}><i class="fa fa-angle-left"></i></a></li>
+                                {% set applyDot = true %}
+                                {% for page in 1..blogPosts.posts.lastPage %}
+                                {% if page==1 or page == blogPosts.posts.lastPage or (page >= blogPosts.posts.currentPage-1 and page <= blogPosts.posts.currentPage+1)  %}
+                                {% if blogPosts.posts.currentPage == page %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{page}}</a></li>
+                                {% else %}
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ 'blogs-list'|page}}?page={{page}}{% if search %}&search={{search}}{% endif %}">{{page}}</a>
+                                </li>
+                                {% endif %}
+                                {% set applyDot = true %}
+                                {% else %}
+                                {% if applyDot == true %}
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                {% set applyDot = false %}
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                            <li class="page-item"><a class="page-link" {% if blogPosts.posts.currentPage < blogPosts.posts.lastPage %}href="{{ 'blogs-list'|page}}?page={{blogPosts.posts.currentPage + 1}}{% if search %}&search={{search}}{% endif %}"
+                                {% else %}href="#" {% endif %}><i class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-widget latest-video-widget mb-50">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2 mb-30">
+                            <h5>{{'Tin nóng'|_}}</h5>
+                            <div class="line"></div>
+                        </div>                    
+                        {% for post in blogTagSearch.posts| slice(0, 6) %}
+                        <!-- Single Blog Post -->
+                        <div class="single-blog-post d-flex">
+                            <div class="post-thumbnail">
+                                <img src="{{post.featured_images[0].getThumb(350, 208, 'crop')}} " alt="">
+                            </div>
+                            <div class="post-content">
+                                <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                <div class="post-meta d-flex justify-content-between">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if blogTags.tags|length %}
+                    <div class="single-widget">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2 mb-30">
+                    <h5>{{'Tags'|_}}</h5>
+                    <div class="line"></div>
+                    </div>
+                    
+                    <ul class="tag_list">
+                    {% for tag in blogTags.tags %}
+                    <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>";s:4:"code";s:160:"function onStart(){
+    if(isset($_GET["view"]))$this->page['view'] = $_GET["view"];
+    if(isset($_GET["search"]))$this->page['search'] = $_GET["search"];
+}";s:5:"title";s:20:"Danh Sách Blog-list";s:3:"url";s:15:"/tin-tuc/:slug?";s:6:"layout";s:4:"main";s:9:"is_hidden";s:1:"0";s:9:"blogPosts";a:7:{s:10:"pageNumber";s:11:"{{ :page }}";s:14:"categoryFilter";s:11:"{{ :slug }}";s:12:"postsPerPage";s:2:"10";s:14:"noPostsMessage";s:14:"No posts found";s:9:"sortOrder";s:17:"published_at desc";s:12:"categoryPage";s:11:"blog-detail";s:8:"postPage";s:11:"blog-detail";}s:14:"blogCategories";a:3:{s:4:"slug";s:11:"{{ :slug }}";s:12:"displayEmpty";s:1:"0";s:12:"categoryPage";s:11:"blog-detail";}s:13:"blogTagSearch";a:5:{s:3:"tag";s:9:"tin nóng";s:4:"page";s:1:"1";s:14:"resultsPerPage";s:1:"5";s:8:"postPage";s:11:"blog-detail";s:12:"categoryPage";s:11:"blog-detail";}s:8:"blogTags";a:3:{s:7:"results";s:1:"5";s:7:"orderBy";s:1:"0";s:9:"direction";s:4:"desc";}}}

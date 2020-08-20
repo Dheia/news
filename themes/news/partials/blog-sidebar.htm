@@ -1,0 +1,100 @@
+[blogTags]
+results = 5
+orderBy = 0
+direction = "desc"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 1
+categoryPage = "about"
+
+[blogTagSearch]
+tag = "tin nóng"
+page = "1"
+resultsPerPage = 5
+postPage = "blog-detail"
+categoryPage = "blog-detail"
+==
+<?php
+function onStart(){
+    if(isset($_GET["search"]))$this->page['search'] = $_GET["search"];
+}
+?>
+==
+
+<div class="sidebar-area">
+
+      
+    <!-- ***** Single Widget ***** -->
+    <div class="single-widget share-post-widget mb-50">
+        <div class="section-heading style-2">
+            <h6>{{'Chia sẻ'|_}}</h6>
+            <div class="line"></div>
+        </div>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=&quote=" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a>
+        <a href="https://twitter.com/intent/tweet?source=&text=:%20" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
+        <a href="mailto:?subject=&body=:%20" target="_blank" title="Send email" onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;" class="google"><i class="fa fa-google" aria-hidden="true"></i> Google+</a>
+  
+    </div>
+
+  <!-- ***** Single Widget ***** -->
+  
+  {% if blogCategories.categories|length > 0 %}
+  <div class="single-widget">
+  <!-- Section Heading -->
+  <div class="section-heading style-2 mb-30">
+  <h4>{{'Danh mục'|_}}</h4>
+  <div class="line"></div>
+  </div>
+  
+  <ul>
+    {% for cate in blogCategories.categories %}
+    <li
+        class="{% if category and category.slug == cate.slug %} active{% endif %}">
+        <a href="{{'blogs-list'|page({slug: cate.slug})}}">{{cate.name}}</a>
+    </li>
+    {% endfor %}
+</ul>
+  </div>
+
+
+  {% endif %}
+
+  <div class="single-widget latest-video-widget mb-50">
+    <!-- Section Heading -->
+    <div class="section-heading style-2 mb-30">
+        <h4>Xem nhiều</h4>
+        <div class="line"></div>
+    </div>                    
+    {% for post in blogTagSearch.posts %}
+    <!-- Single Blog Post -->
+    <div class="single-blog-post d-flex">
+        <div class="post-thumbnail">
+            <img src="{{post.featured_images[0].getThumb(350, 208, 'crop')}} " alt="">
+        </div>
+        <div class="post-content">
+            <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+            <div class="post-meta d-flex justify-content-between">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% if blogTags.tags|length %}
+<div class="single-widget">
+<!-- Section Heading -->
+<div class="section-heading style-2 mb-30">
+<h4>{{'Tags'|_}}</h4>
+<div class="line"></div>
+</div>
+
+<ul class="tag_list">
+{% for tag in blogTags.tags %}
+<li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+</div>

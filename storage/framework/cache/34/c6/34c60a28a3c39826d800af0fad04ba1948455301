@@ -1,0 +1,689 @@
+1597391599a:1:{s:15:"blog-detail.htm";a:16:{s:8:"fileName";s:15:"blog-detail.htm";s:7:"content";s:18666:"title = "Chi tiết bài blog"
+url = "/bai-viet/:slug"
+layout = "main"
+is_hidden = 0
+
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "blog-detail"
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 0
+categoryPage = "blogs-list"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+categoryFilter = "{{ :slug }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blog-detail"
+postPage = "blog-detail"
+
+[blogRelated]
+slug = "{{ :slug }}"
+results = 4
+direction = "desc"
+postPage = "blog-detail"
+
+[blogTagSearch]
+tag = "tin nóng"
+page = "1"
+resultsPerPage = 5
+postPage = "blog-detail"
+categoryPage = "blog-detail"
+
+[blogTags]
+results = 5
+orderBy = 0
+direction = "desc"
+
+[commentsPost]
+==
+{% set post = blogPost.post %}
+
+<!-- {{post.title}}
+<img src="{{post.featured_images[0].getThumb(500, 500, 'crop')}}" alt=""> -->
+
+
+   <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+       <!-- ##### Breadcrumb Area Start ##### -->
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Pager Area Start ##### -->
+    {% if post.previousPost %}
+    <div class="vizew-pager-area">
+        <div class="vizew-pager-prev">
+            <p>{{'Bài trước'|_}}</p>
+
+            <!-- Single Feature Post -->
+            <div class="single-feature-post video-post bg-img pager-article" style="background-image: url({{post.previousPost.featured_images[0].getThumb(350, 208, 'crop')}});">
+                <!-- Post Content -->
+                <div class="post-content">
+                    <a href="{{'blog-detail'|page({slug:post.previousPost.slug})}}" class="post-title">{{post.previousPost.title}}</a>
+                    <div class="post-meta d-flex">
+                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 18</a>
+                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 32</a>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+{% endif %}
+    {% if post.nextPost %}
+    <div class="vizew-pager-next">
+            <p>{{'Bài sau'|_}}</p>
+
+            <!-- Single Feature Post -->
+            <div class="single-feature-post video-post bg-img pager-article" style="background-image: url({{post.nextPost.featured_images[0].getThumb(350, 208, 'crop')}});">
+                <!-- Post Content -->
+                <div class="post-content">
+                    <a href="{{'blog-detail'|page({slug:post.nextPost.slug})}}" class="post-title">{{post.nextPost.title}}</a>
+                    <div class="post-meta d-flex">
+                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 25</a>
+                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 25</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<!-- ##### Pager Area End ##### -->
+
+    <!-- ##### Post Details Area Start ##### -->
+    <section class="post-details-area mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="post-details-thumb mb-50">
+                        <img src="img/bg-img/34.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <!-- Post Details Content Area -->
+                <div class="col-12 col-md-6 col-lg-8 col-xl-9">
+                    <div class="post-details-content">
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+
+                            <!-- Post Content -->
+                            <div class="post-content mt-0">
+                                <a href="#" class="post-title mb-2">{{post.title}}</a>
+
+                                <div class="d-flex justify-content-between mb-30">
+                                    <div class="post-meta d-flex align-items-center">
+                                        <a href="#" class="post-author">{{post.user.first_name}} {{post.user.last_name}}</a>
+                                        <i class="fa fa-circle" aria-hidden="true"></i>
+                                        <a href="#" class="post-date">{{post.created_at|date('d/m/Y')}}</a>
+                                    </div>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+
+                            <!-- Post Tags -->
+                           <div>{{post.content_html|raw}}</div>
+                            
+
+                            <!-- Related Post Area -->
+                    {% if blogRelated.posts|length>0 %}
+                    <div class="related-post-area mt-5">
+                        <!-- Section Title -->
+                        <div class="section-heading style-2">
+                            <h5>Tin liên quan</h5>
+                            <div class="line"></div>
+                        </div>
+
+                        <div class="row">
+
+                            {% for post in blogRelated.posts|slice(0, 4) %}
+                            
+                            <div class="col-12 col-md-6">
+                                <div class="single-post-area mb-50">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumbnail">
+                                        {% if post.featured_images.count %}
+                                        {% for image in post.featured_images|slice(0, 1) %}
+                                        <a href="{{ post.url }}">
+                                            <img class="img" src="{{ image.getThumb(350, 208, 'crop') }}"
+                                                alt="{ image.description != null ? image.description : image.filename }}"
+                                                title="{{ image.title != null ? image.title : post.title }}">
+                                        </a>
+                                        {% endfor %}
+                                        {% endif %}
+                                      
+                                    </div>
+
+                                    <!-- Post Content -->
+                                    <div class="post-content">
+                                        <a href="{{ post.url }}" style="font-size:initial ;" class="post-title">{{ post.title }}</a>
+                                        
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"> 
+                                        </i>
+                                        
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}"> {{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Single Blog Post -->
+                        </div>
+                    </div>
+                    {% endif %}
+
+                            {% set posts = commentsPost.posts %}
+
+
+
+                    <div class="col-xs-6" id="comments-content">
+                            <!-- Comment Area Start -->
+                            <div class="comment_area clearfix mb-50">
+
+                                <!-- Section Title -->
+                                <div class="section-heading style-2">
+                                    <h4>Comment</h4>
+                                    {% if(commentsPost.count) > 0 %}
+                                    <h6 class="text-right"><span id="comments-count">{{ commentsPost.count }}</span> comments</h6>
+                                {% endif %}
+                                    <div class="line"></div>
+                                </div>
+                                <div class="comments">
+                                    <ul>
+                                        {% for post in posts %}
+                            <li>
+                                <div class="comment" id="comment-{{post.id}}">
+                                    <div class="comment-avatar">
+                                        {{post.avatar|raw}}
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-name">{{post.name}}</span>
+                                            <a class="comment-date" href="#comment-{{post.id}}">
+                                                {{post.created_at.diffForHumans}}
+                                            </a>
+                                        </div>
+                                        <div>{{post.content|raw}}</div>
+                                        <div class="comment-footer">
+                                            <a class="comment-reply" onclick="Comment.replay(event,'{{post.id}}')">Reply</a>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            
+                                {% if post.children %}
+                                <ul>
+                                    {% partial "commentsPost::list" posts=post.children %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                                    </ul>
+                                </div>
+                          
+                            </div>
+
+                            <!-- Post A Comment Area -->
+                            <div class="post-a-comment-area">
+
+                                <!-- Section Title -->
+                                <div class="section-heading style-2">
+                                    <h4>{{'Bình luận'|_}}</h4>
+                                    <div class="line"></div>
+                                </div>
+
+                                <!-- Reply Form -->
+                                <div class="contact-form-area">
+                                 
+                                {% if(user or commentsPost.settings.allow_guest) %}
+                            
+                                <div id="wrap-comment-form">
+                                    <div class="row" id="comment-form">
+                                
+                                        <h2 class="comment-reply-title">
+                                            <small><a onclick="Comment.cancel()" style="display: none;" rel="nofollow" id="cancel-comment-reply-link"
+                                                      title="Cancel reply">×</a>
+                                            </small>
+                                        </h2>
+                                        <form>
+                                            <div class="row">
+                                            <div id="comment_flash_message"></div>
+                                            {% if(user == false) %}
+                                                <!-- Name Field -->
+                                               
+                                                    <div class="col-12 col-lg-6">
+                                                        <div class="form-group">
+                                                            <input placeholder="{{'Tên'|_}}" class="form-control" name="author" type="text">
+                                                    </div>   
+                                                </div>
+                                
+                                                <!-- Email Field -->
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input placeholder="Email" class="form-control" name="email" type="text">
+                                                    </div>
+                                                </div>
+                                                
+                                            {% endif %}
+                                            <!-- Content Field -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <textarea placeholder="{{'Viết bình luận'|_}}..." class="form-control" id="comment-text" name="content"
+                                                              cols="50" rows="10"></textarea>
+                                                </div>
+                                            </div>
+                                          
+                                
+                                            <input name="post_id" type="hidden" value="{{commentsPost.post_id}}">
+                                
+                                            {% if (commentsPost.settings.recaptcha_enabled) %}  
+                                                <div class="g-recaptcha" data-sitekey="{{ commentsPost.settings.site_key }}"></div>
+                                                <br>
+                                            {% endif %}
+                                
+                                            <!-- Submit Field -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn vizew-btn mt-30" " onclick="Comment.saveButton(event)">{{'Gửi bình luận'|_}}</button>
+                                                </div>
+                                            </div>
+                                          
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>   
+                                
+                                {% endif %}
+                                
+                                </div>
+                            </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Widget -->
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="single-widget share-post-widget mb-50">
+                        <div class="section-heading style-2">
+                            <h6>{{'Chia sẻ'|_}}</h6>
+                            <div class="line"></div>
+                        </div>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=&quote=" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a>
+                        <a href="https://twitter.com/intent/tweet?source=&text=:%20" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
+                        <a href="mailto:?subject=&body=:%20" target="_blank" title="Send email" onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;" class="google"><i class="fa fa-google" aria-hidden="true"></i> Google+</a>
+                  
+                    </div>
+                    
+                    {% if blogTags.tags|length %}
+                        <div class="single-widget">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2 mb-30">
+                        <h5>{{'Tags'|_}}</h5>
+                        <div class="line"></div>
+                        </div>
+
+                        <ul class="tag_list">
+                        {% for tag in blogTags.tags %}
+                        <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                        {% endfor %}
+                        </ul>
+                        </div>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Post Details Area End ##### -->
+  ";s:5:"mtime";i:1597154103;s:6:"markup";s:17894:"{% set post = blogPost.post %}
+
+<!-- {{post.title}}
+<img src="{{post.featured_images[0].getThumb(500, 500, 'crop')}}" alt=""> -->
+
+
+   <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+       <!-- ##### Breadcrumb Area Start ##### -->
+    <!-- ##### Breadcrumb Area End ##### -->
+
+    <!-- ##### Pager Area Start ##### -->
+    {% if post.previousPost %}
+    <div class="vizew-pager-area">
+        <div class="vizew-pager-prev">
+            <p>{{'Bài trước'|_}}</p>
+
+            <!-- Single Feature Post -->
+            <div class="single-feature-post video-post bg-img pager-article" style="background-image: url({{post.previousPost.featured_images[0].getThumb(350, 208, 'crop')}});">
+                <!-- Post Content -->
+                <div class="post-content">
+                    <a href="{{'blog-detail'|page({slug:post.previousPost.slug})}}" class="post-title">{{post.previousPost.title}}</a>
+                    <div class="post-meta d-flex">
+                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 18</a>
+                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 32</a>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+{% endif %}
+    {% if post.nextPost %}
+    <div class="vizew-pager-next">
+            <p>{{'Bài sau'|_}}</p>
+
+            <!-- Single Feature Post -->
+            <div class="single-feature-post video-post bg-img pager-article" style="background-image: url({{post.nextPost.featured_images[0].getThumb(350, 208, 'crop')}});">
+                <!-- Post Content -->
+                <div class="post-content">
+                    <a href="{{'blog-detail'|page({slug:post.nextPost.slug})}}" class="post-title">{{post.nextPost.title}}</a>
+                    <div class="post-meta d-flex">
+                        <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 25</a>
+                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 25</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<!-- ##### Pager Area End ##### -->
+
+    <!-- ##### Post Details Area Start ##### -->
+    <section class="post-details-area mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="post-details-thumb mb-50">
+                        <img src="img/bg-img/34.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <!-- Post Details Content Area -->
+                <div class="col-12 col-md-6 col-lg-8 col-xl-9">
+                    <div class="post-details-content">
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+
+                            <!-- Post Content -->
+                            <div class="post-content mt-0">
+                                <a href="#" class="post-title mb-2">{{post.title}}</a>
+
+                                <div class="d-flex justify-content-between mb-30">
+                                    <div class="post-meta d-flex align-items-center">
+                                        <a href="#" class="post-author">{{post.user.first_name}} {{post.user.last_name}}</a>
+                                        <i class="fa fa-circle" aria-hidden="true"></i>
+                                        <a href="#" class="post-date">{{post.created_at|date('d/m/Y')}}</a>
+                                    </div>
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+
+                            <!-- Post Tags -->
+                           <div>{{post.content_html|raw}}</div>
+                            
+
+                            <!-- Related Post Area -->
+                    {% if blogRelated.posts|length>0 %}
+                    <div class="related-post-area mt-5">
+                        <!-- Section Title -->
+                        <div class="section-heading style-2">
+                            <h5>Tin liên quan</h5>
+                            <div class="line"></div>
+                        </div>
+
+                        <div class="row">
+
+                            {% for post in blogRelated.posts|slice(0, 4) %}
+                            
+                            <div class="col-12 col-md-6">
+                                <div class="single-post-area mb-50">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumbnail">
+                                        {% if post.featured_images.count %}
+                                        {% for image in post.featured_images|slice(0, 1) %}
+                                        <a href="{{ post.url }}">
+                                            <img class="img" src="{{ image.getThumb(350, 208, 'crop') }}"
+                                                alt="{ image.description != null ? image.description : image.filename }}"
+                                                title="{{ image.title != null ? image.title : post.title }}">
+                                        </a>
+                                        {% endfor %}
+                                        {% endif %}
+                                      
+                                    </div>
+
+                                    <!-- Post Content -->
+                                    <div class="post-content">
+                                        <a href="{{ post.url }}" style="font-size:initial ;" class="post-title">{{ post.title }}</a>
+                                        
+                                    {% if post.categories.count %}             
+                                    <div class="post-meta d-flex">
+                                        <i class="fa fa-folder-o" aria-hidden="true"> 
+                                        </i>
+                                        
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs-list'|page({slug:category.slug}) }}"> {{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Single Blog Post -->
+                        </div>
+                    </div>
+                    {% endif %}
+
+                            {% set posts = commentsPost.posts %}
+
+
+
+                    <div class="col-xs-6" id="comments-content">
+                            <!-- Comment Area Start -->
+                            <div class="comment_area clearfix mb-50">
+
+                                <!-- Section Title -->
+                                <div class="section-heading style-2">
+                                    <h4>Comment</h4>
+                                    {% if(commentsPost.count) > 0 %}
+                                    <h6 class="text-right"><span id="comments-count">{{ commentsPost.count }}</span> comments</h6>
+                                {% endif %}
+                                    <div class="line"></div>
+                                </div>
+                                <div class="comments">
+                                    <ul>
+                                        {% for post in posts %}
+                            <li>
+                                <div class="comment" id="comment-{{post.id}}">
+                                    <div class="comment-avatar">
+                                        {{post.avatar|raw}}
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <span class="comment-name">{{post.name}}</span>
+                                            <a class="comment-date" href="#comment-{{post.id}}">
+                                                {{post.created_at.diffForHumans}}
+                                            </a>
+                                        </div>
+                                        <div>{{post.content|raw}}</div>
+                                        <div class="comment-footer">
+                                            <a class="comment-reply" onclick="Comment.replay(event,'{{post.id}}')">Reply</a>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            
+                                {% if post.children %}
+                                <ul>
+                                    {% partial "commentsPost::list" posts=post.children %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                                    </ul>
+                                </div>
+                          
+                            </div>
+
+                            <!-- Post A Comment Area -->
+                            <div class="post-a-comment-area">
+
+                                <!-- Section Title -->
+                                <div class="section-heading style-2">
+                                    <h4>{{'Bình luận'|_}}</h4>
+                                    <div class="line"></div>
+                                </div>
+
+                                <!-- Reply Form -->
+                                <div class="contact-form-area">
+                                 
+                                {% if(user or commentsPost.settings.allow_guest) %}
+                            
+                                <div id="wrap-comment-form">
+                                    <div class="row" id="comment-form">
+                                
+                                        <h2 class="comment-reply-title">
+                                            <small><a onclick="Comment.cancel()" style="display: none;" rel="nofollow" id="cancel-comment-reply-link"
+                                                      title="Cancel reply">×</a>
+                                            </small>
+                                        </h2>
+                                        <form>
+                                            <div class="row">
+                                            <div id="comment_flash_message"></div>
+                                            {% if(user == false) %}
+                                                <!-- Name Field -->
+                                               
+                                                    <div class="col-12 col-lg-6">
+                                                        <div class="form-group">
+                                                            <input placeholder="{{'Tên'|_}}" class="form-control" name="author" type="text">
+                                                    </div>   
+                                                </div>
+                                
+                                                <!-- Email Field -->
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input placeholder="Email" class="form-control" name="email" type="text">
+                                                    </div>
+                                                </div>
+                                                
+                                            {% endif %}
+                                            <!-- Content Field -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <textarea placeholder="{{'Viết bình luận'|_}}..." class="form-control" id="comment-text" name="content"
+                                                              cols="50" rows="10"></textarea>
+                                                </div>
+                                            </div>
+                                          
+                                
+                                            <input name="post_id" type="hidden" value="{{commentsPost.post_id}}">
+                                
+                                            {% if (commentsPost.settings.recaptcha_enabled) %}  
+                                                <div class="g-recaptcha" data-sitekey="{{ commentsPost.settings.site_key }}"></div>
+                                                <br>
+                                            {% endif %}
+                                
+                                            <!-- Submit Field -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn vizew-btn mt-30" " onclick="Comment.saveButton(event)">{{'Gửi bình luận'|_}}</button>
+                                                </div>
+                                            </div>
+                                          
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>   
+                                
+                                {% endif %}
+                                
+                                </div>
+                            </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Widget -->
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="single-widget share-post-widget mb-50">
+                        <div class="section-heading style-2">
+                            <h6>{{'Chia sẻ'|_}}</h6>
+                            <div class="line"></div>
+                        </div>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=&quote=" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&quote=' + encodeURIComponent(document.URL)); return false;" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a>
+                        <a href="https://twitter.com/intent/tweet?source=&text=:%20" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
+                        <a href="mailto:?subject=&body=:%20" target="_blank" title="Send email" onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;" class="google"><i class="fa fa-google" aria-hidden="true"></i> Google+</a>
+                  
+                    </div>
+                    
+                    {% if blogTags.tags|length %}
+                        <div class="single-widget">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2 mb-30">
+                        <h5>{{'Tags'|_}}</h5>
+                        <div class="line"></div>
+                        </div>
+
+                        <ul class="tag_list">
+                        {% for tag in blogTags.tags %}
+                        <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                        {% endfor %}
+                        </ul>
+                        </div>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Post Details Area End ##### -->";s:4:"code";N;s:5:"title";s:20:"Chi tiết bài blog";s:3:"url";s:15:"/bai-viet/:slug";s:6:"layout";s:4:"main";s:9:"is_hidden";s:1:"0";s:8:"blogPost";a:2:{s:4:"slug";s:11:"{{ :slug }}";s:12:"categoryPage";s:11:"blog-detail";}s:14:"blogCategories";a:3:{s:4:"slug";s:11:"{{ :slug }}";s:12:"displayEmpty";s:1:"0";s:12:"categoryPage";s:10:"blogs-list";}s:9:"blogPosts";a:7:{s:10:"pageNumber";s:11:"{{ :page }}";s:14:"categoryFilter";s:11:"{{ :slug }}";s:12:"postsPerPage";s:2:"10";s:14:"noPostsMessage";s:14:"No posts found";s:9:"sortOrder";s:17:"published_at desc";s:12:"categoryPage";s:11:"blog-detail";s:8:"postPage";s:11:"blog-detail";}s:11:"blogRelated";a:4:{s:4:"slug";s:11:"{{ :slug }}";s:7:"results";s:1:"4";s:9:"direction";s:4:"desc";s:8:"postPage";s:11:"blog-detail";}s:13:"blogTagSearch";a:5:{s:3:"tag";s:9:"tin nóng";s:4:"page";s:1:"1";s:14:"resultsPerPage";s:1:"5";s:8:"postPage";s:11:"blog-detail";s:12:"categoryPage";s:11:"blog-detail";}s:8:"blogTags";a:3:{s:7:"results";s:1:"5";s:7:"orderBy";s:1:"0";s:9:"direction";s:4:"desc";}s:12:"commentsPost";a:0:{}}}

@@ -1,0 +1,74 @@
+1597391599a:1:{s:8:"main.htm";a:6:{s:8:"fileName";s:8:"main.htm";s:7:"content";s:875:"==
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>24News</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{'assets/img/core-img/logo5'|theme}}">
+
+    <!-- Stylesheet -->
+    {% partial 'layout/header-scripts' %}
+    {% styles %}
+
+</head>
+<!-- Material Design Lite CSS -->
+
+
+<body>
+    {% partial 'layout/header' %}
+    {%page%}
+    {% partial 'layout/footer' %}
+    {% partial 'layout/footer-scripts' %}
+    
+    {% framework %}
+    
+    {% scripts %}
+
+</body>
+
+</html>";s:5:"mtime";i:1597078674;s:6:"markup";s:871:"<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>24News</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{'assets/img/core-img/logo5'|theme}}">
+
+    <!-- Stylesheet -->
+    {% partial 'layout/header-scripts' %}
+    {% styles %}
+
+</head>
+<!-- Material Design Lite CSS -->
+
+
+<body>
+    {% partial 'layout/header' %}
+    {%page%}
+    {% partial 'layout/footer' %}
+    {% partial 'layout/footer-scripts' %}
+    
+    {% framework %}
+    
+    {% scripts %}
+
+</body>
+
+</html>";s:4:"code";N;s:17:"_PARSER_ERROR_INI";s:0:"";}}

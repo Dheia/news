@@ -1,0 +1,367 @@
+1597391599a:1:{s:8:"tags.htm";a:12:{s:8:"fileName";s:8:"tags.htm";s:7:"content";s:9978:"title = "Tags"
+url = "/tags/:tag"
+layout = "main"
+is_hidden = 0
+
+[blogTagSearch]
+tag = "{{ :tag }}"
+pagination = 1
+page = "{{ :page }}"
+resultsPerPage = 10
+postPage = "blog-detail"
+categoryPage = "about"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 15
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blogs"
+postPage = "blog-detail"
+
+[blogTags]
+results = 5
+orderBy = 0
+direction = "desc"
+==
+{% set blogPosts1 = blogTagSearch %}
+{% set posts = blogPosts1.posts %}
+  <!-- ##### Breadcrumb Area Start ##### -->
+  <div class="vizew-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{'index'|page({slug:post.slug})}}"><i class="fa fa-home" aria-hidden="true"></i>{{'Trang chủ'|_}}</a></li>                      
+                                           
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcrumb Area End ##### -->
+<section class="blog_post_container bgc-fa">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="main_blog_post_content">
+                    <div class="row">
+                        
+                        <div class="col-12 section-heading style-2">
+                            <h5>{{'Tìm kiếm tag'|_}} "{{blogTagSearch.tag.name}}": </h5>
+                            <div class="line"></div>
+                        </div>
+                        {% for post in posts %}
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="blog_grid_post mb35">
+                                <div class="thumb">
+                                    {% if post.featured_images.count %}
+                                    {% for image in post.featured_images|slice(0, 1) %}
+                                    <a href="{{ post.url }}">
+                                        <img class="img-fluid" src="{{ image.getThumb(350, 208, 'crop') }}" 
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <div class="tag">
+                                        {% if post.categories.count %}
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs'|page({c:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <a href="{{ post.url }}">
+                                        <h6>{{ post.title }}</h6>
+                                    </a>
+                                    <ul class="post_meta">
+                                        <li><a href="#"><span class="flaticon-clock"></span></a></li>
+                                        <li><a href="#"><span>{{ post.published_at|date('d m, Y') }}</span></a></li>
+                                    </ul>
+                                    <p>{{ post.summary | striptags | truncate(100) }}</p>
+                                    <a class="text-thm" href="{{ post.url }}">{{'Đọc thêm'|_}} <span
+                                            class="flaticon-right-arrow pl10"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <p>{{ 'Không có bài viết nào'|_ }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- {% if blogPosts1.totalPosts>0 %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mbp_pagination">
+                                <ul class="page_navigation">
+                                    <li class="page-item {% if blogPosts1.currentPage <= 1 %}disabled{% endif %}">
+                                        <a class="page-link"
+                                            {% if blogPosts1.currentPage > 1 %}href="{{ 'tags'|page}}?page={{blogPosts1.currentPage - 1}}"
+                                            {% else %}href="#" {% endif %} tabindex="-1" aria-disabled="true"> <span
+                                                class="flaticon-left-arrow"></span> {{'Trước'|_}}</a>
+                                    </li>
+                                    {% set applyDot = true %}
+                                    {% for page in 1..blogPosts1.lastPage %}
+                                    {% if page==1 or page == blogPosts1.lastPage or (page >= blogPosts1.currentPage-1 and page <= blogPosts1.currentPage+1)  %}
+                                    {% if blogPosts1.currentPage == page %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">{{page}} <span
+                                                class="sr-only">(current)</span></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link"
+                                            href="{{ 'tags'|page}}?page={{page}}">{{page}}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% set applyDot = true %}
+                                    {% else %}
+                                    {% if applyDot == true %}
+                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                    {% set applyDot = false %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    <li
+                                        class="page-item {% if blogPosts1.currentPage >= blogPosts1.lastPage %}disabled{% endif %}">
+                                        <a class="page-link"
+                                            {% if blogPosts1.currentPage < blogPosts1.lastPage %}
+                                            href="{{ 'tags'|page}}?page={{blogPosts1.currentPage + 1}}"
+                                            {% else %}href="#" {% endif %}>{{'Tiếp'|_}} <span
+                                                class="flaticon-right-arrow"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %} -->
+
+                 
+                
+                </div>
+            </div>
+            <div class="col-lg-4">
+               
+                <div class="single-widget latest-video-widget mb-50">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2 mb-30">
+                        <h5>{{'Tin mới'|_}}</h5>
+                        <div class="line"></div>
+                    </div>
+                    {% for post1 in blogPosts.posts | slice(4, 6) %}  
+                    <!-- Single Blog Post -->
+                    <div class="single-blog-post d-flex">
+                        <div class="post-thumbnail">
+                          
+                            <a href="{{ post.url }}">
+                                <img class="img" src="{{post1.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                    title="{{ image.title != null ? image.title : post.title }}">
+                            </a>
+                        </div>
+                        <div class="post-content">
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post1.title}}</a>
+                            <div class="post-meta d-flex justify-content-between">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if blogTags.tags|length %}
+                <div class="single-widget">
+                <!-- Section Heading -->
+                <div class="section-heading style-2 mb-30">
+                <h5>{{'Tags'|_}}</h5>
+                <div class="line"></div>
+                </div>
+                
+                <ul class="tag_list">
+                {% for tag in blogTags.tags %}
+                <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>";s:5:"mtime";i:1597076074;s:6:"markup";s:9518:"{% set blogPosts1 = blogTagSearch %}
+{% set posts = blogPosts1.posts %}
+  <!-- ##### Breadcrumb Area Start ##### -->
+  <div class="vizew-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{'index'|page({slug:post.slug})}}"><i class="fa fa-home" aria-hidden="true"></i>{{'Trang chủ'|_}}</a></li>                      
+                                           
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcrumb Area End ##### -->
+<section class="blog_post_container bgc-fa">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="main_blog_post_content">
+                    <div class="row">
+                        
+                        <div class="col-12 section-heading style-2">
+                            <h5>{{'Tìm kiếm tag'|_}} "{{blogTagSearch.tag.name}}": </h5>
+                            <div class="line"></div>
+                        </div>
+                        {% for post in posts %}
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="blog_grid_post mb35">
+                                <div class="thumb">
+                                    {% if post.featured_images.count %}
+                                    {% for image in post.featured_images|slice(0, 1) %}
+                                    <a href="{{ post.url }}">
+                                        <img class="img-fluid" src="{{ image.getThumb(350, 208, 'crop') }}" 
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <div class="tag">
+                                        {% if post.categories.count %}
+                                        {% for category in post.categories %}
+                                        <a href="{{ 'blogs'|page({c:category.slug}) }}">{{ category.name }}</a>
+                                        {% if not loop.last %},
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <a href="{{ post.url }}">
+                                        <h6>{{ post.title }}</h6>
+                                    </a>
+                                    <ul class="post_meta">
+                                        <li><a href="#"><span class="flaticon-clock"></span></a></li>
+                                        <li><a href="#"><span>{{ post.published_at|date('d m, Y') }}</span></a></li>
+                                    </ul>
+                                    <p>{{ post.summary | striptags | truncate(100) }}</p>
+                                    <a class="text-thm" href="{{ post.url }}">{{'Đọc thêm'|_}} <span
+                                            class="flaticon-right-arrow pl10"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <p>{{ 'Không có bài viết nào'|_ }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- {% if blogPosts1.totalPosts>0 %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mbp_pagination">
+                                <ul class="page_navigation">
+                                    <li class="page-item {% if blogPosts1.currentPage <= 1 %}disabled{% endif %}">
+                                        <a class="page-link"
+                                            {% if blogPosts1.currentPage > 1 %}href="{{ 'tags'|page}}?page={{blogPosts1.currentPage - 1}}"
+                                            {% else %}href="#" {% endif %} tabindex="-1" aria-disabled="true"> <span
+                                                class="flaticon-left-arrow"></span> {{'Trước'|_}}</a>
+                                    </li>
+                                    {% set applyDot = true %}
+                                    {% for page in 1..blogPosts1.lastPage %}
+                                    {% if page==1 or page == blogPosts1.lastPage or (page >= blogPosts1.currentPage-1 and page <= blogPosts1.currentPage+1)  %}
+                                    {% if blogPosts1.currentPage == page %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">{{page}} <span
+                                                class="sr-only">(current)</span></a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link"
+                                            href="{{ 'tags'|page}}?page={{page}}">{{page}}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% set applyDot = true %}
+                                    {% else %}
+                                    {% if applyDot == true %}
+                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                    {% set applyDot = false %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    <li
+                                        class="page-item {% if blogPosts1.currentPage >= blogPosts1.lastPage %}disabled{% endif %}">
+                                        <a class="page-link"
+                                            {% if blogPosts1.currentPage < blogPosts1.lastPage %}
+                                            href="{{ 'tags'|page}}?page={{blogPosts1.currentPage + 1}}"
+                                            {% else %}href="#" {% endif %}>{{'Tiếp'|_}} <span
+                                                class="flaticon-right-arrow"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %} -->
+
+                 
+                
+                </div>
+            </div>
+            <div class="col-lg-4">
+               
+                <div class="single-widget latest-video-widget mb-50">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2 mb-30">
+                        <h5>{{'Tin mới'|_}}</h5>
+                        <div class="line"></div>
+                    </div>
+                    {% for post1 in blogPosts.posts | slice(4, 6) %}  
+                    <!-- Single Blog Post -->
+                    <div class="single-blog-post d-flex">
+                        <div class="post-thumbnail">
+                          
+                            <a href="{{ post.url }}">
+                                <img class="img" src="{{post1.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                    title="{{ image.title != null ? image.title : post.title }}">
+                            </a>
+                        </div>
+                        <div class="post-content">
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post1.title}}</a>
+                            <div class="post-meta d-flex justify-content-between">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if blogTags.tags|length %}
+                <div class="single-widget">
+                <!-- Section Heading -->
+                <div class="section-heading style-2 mb-30">
+                <h5>{{'Tags'|_}}</h5>
+                <div class="line"></div>
+                </div>
+                
+                <ul class="tag_list">
+                {% for tag in blogTags.tags %}
+                <li class="list-inline-item"><a href="{{'tags'|page({tag: tag.slug})}}">{{ tag.name }} ({{ tag.posts|length }})</a></li>
+                {% endfor %}
+                </ul>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>";s:4:"code";N;s:5:"title";s:4:"Tags";s:3:"url";s:10:"/tags/:tag";s:6:"layout";s:4:"main";s:9:"is_hidden";s:1:"0";s:13:"blogTagSearch";a:6:{s:3:"tag";s:10:"{{ :tag }}";s:10:"pagination";s:1:"1";s:4:"page";s:11:"{{ :page }}";s:14:"resultsPerPage";s:2:"10";s:8:"postPage";s:11:"blog-detail";s:12:"categoryPage";s:5:"about";}s:9:"blogPosts";a:6:{s:10:"pageNumber";s:11:"{{ :page }}";s:12:"postsPerPage";s:2:"15";s:14:"noPostsMessage";s:14:"No posts found";s:9:"sortOrder";s:17:"published_at desc";s:12:"categoryPage";s:5:"blogs";s:8:"postPage";s:11:"blog-detail";}s:8:"blogTags";a:3:{s:7:"results";s:1:"5";s:7:"orderBy";s:1:"0";s:9:"direction";s:4:"desc";}}}

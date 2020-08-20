@@ -1,0 +1,285 @@
+1597391599a:1:{s:11:"contact.htm";a:10:{s:8:"fileName";s:11:"contact.htm";s:7:"content";s:5318:"title = "contact"
+url = "/contact"
+layout = "main"
+is_hidden = 0
+
+[GrofGraf\ContactMe\Components\ContactForm contactForm]
+loadJS = 1
+==
+<!-- ##### Breadcrumb Area Start ##### -->
+    <div class="vizew-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{'index'|page}}"><i class="fa fa-home" aria-hidden="true"></i>{{'Trang chủ'|_}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+    
+  
+
+    <!-- ##### Contact Area Start ##### -->
+    <section class="contact-area mb-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-7 col-lg-8">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2">
+                        <h4>{{'Liên hệ'|_}}</h4>
+                        <div class="line"></div>
+                    </div>
+
+                    <p>{{'Gửi góp ý của bạn cho tòa soạn'|_}}</p>               
+                   
+                    <!-- Contact Form Area -->
+                    <div class="contact-form-area mt-50">
+                       
+                        <div class="confirm-contact-container">
+</div>
+<form id="contact-form"
+  data-request="{{ contactForm }}::onMailSend"
+  data-request-update="'{{ contactForm }}::confirm': '.confirm-contact-container'"
+  {% if contactForm.enableFileUpload %}
+  data-request-files
+  {% endif %}
+  >
+  <div class="form-group">
+    <label for="name">
+      {{label.name}}
+    </label>
+    <input type="text" name="name" class="form-control">
+  </div>
+  {% if contactForm.enablePhoneNumber %}
+    <div class="form-group">
+      <label for="phone_number">
+        {{label.phone_number}}
+      </label>
+      <input type="text" name="phone_number" class="form-control">
+    </div>
+  {% endif %}
+  <div class="form-group">
+    <label for="email">
+      {{label.email}}
+    </label>
+    <input type="text" name="email" class="form-control">
+  </div>
+  {% if contactForm.enableSubject %}
+    <div class="form-group">
+      <label for="subject">
+        {{label.subject}}
+      </label>
+      <input type="text" name="subject" class="form-control">
+    </div>
+  {% endif %}
+  {% if contactForm.enableFileUpload %}
+  <div class="form-group">
+    <label for="attachment">{{label.attachment}}</label>
+    <input type="file" name="attachment" class="form-control">
+  </div>
+  {% endif %}
+  <div class="form-group">
+    <label for="message">
+      {{label.message}}
+    </label>
+    <textarea rows="5" name="message_content" class="form-control"></textarea>
+  </div>
+  {% if contactForm.enableCaptcha %}
+    <div class="form-group">
+      <label for="g-recaptcha">
+        {{label.captcha}}
+      </label>
+      <div class="g-recaptcha" data-sitekey="{{ contactForm.captchaSiteKey }}"></div>
+    </div>
+  {% endif %}
+  {% if contactForm.mailgunSubscribeExist %}
+    <div class="form-group">
+      <div class="checkbox">
+        <label><input type="checkbox" name="maillist_subscribe" checked>{{label.maillist}}</label>
+        <input type="hidden" name="confirm_subscribe" value="true">
+      </div>
+    </div>
+  {% endif %}
+  <button class="btn vizew-btn mt-30">
+    {{label.button_text}}
+  </button>
+</form>
+
+                    </div>
+                </div>
+                
+
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <div class="sidebar-area">
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget newsletter-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h4>{{'Thông tin về tòa soạn'|_}}</h4>
+                                <div class="line"></div>
+                            </div>
+                            <p>{{'Ngày thành lập: 15/07/2020'|_}}</p>
+                            
+                            <p>{{'Cơ quan chủ quản: Nhóm sinh viên'|_}}</p>
+                            <p>{{'Tổng biên tập: Lê Quang Thuận'|_}}</p>
+                            <p>{{'Giấy phép: Chưa có'|_}}</p>
+                            
+                            <hr>
+                           
+                            <p>{{'Trụ sở'|_}}</p>
+                            <p>{{'140 Lê Trọng Tấn, Phường Tây Thạnh, TP.HCM'|_}}</p>
+                            <p>{{'Điện thoại: 0944005xxx'|_}}</p>
+                            <hr>
+                            <p>{{'Liên hệ quảng cáo: 0944005xxx'|_}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Contact Area End ##### -->";s:5:"mtime";i:1597112974;s:6:"markup";s:5174:"<!-- ##### Breadcrumb Area Start ##### -->
+    <div class="vizew-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{'index'|page}}"><i class="fa fa-home" aria-hidden="true"></i>{{'Trang chủ'|_}}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcrumb Area End ##### -->
+    
+  
+
+    <!-- ##### Contact Area Start ##### -->
+    <section class="contact-area mb-80">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-7 col-lg-8">
+                    <!-- Section Heading -->
+                    <div class="section-heading style-2">
+                        <h4>{{'Liên hệ'|_}}</h4>
+                        <div class="line"></div>
+                    </div>
+
+                    <p>{{'Gửi góp ý của bạn cho tòa soạn'|_}}</p>               
+                   
+                    <!-- Contact Form Area -->
+                    <div class="contact-form-area mt-50">
+                       
+                        <div class="confirm-contact-container">
+</div>
+<form id="contact-form"
+  data-request="{{ contactForm }}::onMailSend"
+  data-request-update="'{{ contactForm }}::confirm': '.confirm-contact-container'"
+  {% if contactForm.enableFileUpload %}
+  data-request-files
+  {% endif %}
+  >
+  <div class="form-group">
+    <label for="name">
+      {{label.name}}
+    </label>
+    <input type="text" name="name" class="form-control">
+  </div>
+  {% if contactForm.enablePhoneNumber %}
+    <div class="form-group">
+      <label for="phone_number">
+        {{label.phone_number}}
+      </label>
+      <input type="text" name="phone_number" class="form-control">
+    </div>
+  {% endif %}
+  <div class="form-group">
+    <label for="email">
+      {{label.email}}
+    </label>
+    <input type="text" name="email" class="form-control">
+  </div>
+  {% if contactForm.enableSubject %}
+    <div class="form-group">
+      <label for="subject">
+        {{label.subject}}
+      </label>
+      <input type="text" name="subject" class="form-control">
+    </div>
+  {% endif %}
+  {% if contactForm.enableFileUpload %}
+  <div class="form-group">
+    <label for="attachment">{{label.attachment}}</label>
+    <input type="file" name="attachment" class="form-control">
+  </div>
+  {% endif %}
+  <div class="form-group">
+    <label for="message">
+      {{label.message}}
+    </label>
+    <textarea rows="5" name="message_content" class="form-control"></textarea>
+  </div>
+  {% if contactForm.enableCaptcha %}
+    <div class="form-group">
+      <label for="g-recaptcha">
+        {{label.captcha}}
+      </label>
+      <div class="g-recaptcha" data-sitekey="{{ contactForm.captchaSiteKey }}"></div>
+    </div>
+  {% endif %}
+  {% if contactForm.mailgunSubscribeExist %}
+    <div class="form-group">
+      <div class="checkbox">
+        <label><input type="checkbox" name="maillist_subscribe" checked>{{label.maillist}}</label>
+        <input type="hidden" name="confirm_subscribe" value="true">
+      </div>
+    </div>
+  {% endif %}
+  <button class="btn vizew-btn mt-30">
+    {{label.button_text}}
+  </button>
+</form>
+
+                    </div>
+                </div>
+                
+
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <div class="sidebar-area">
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget newsletter-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h4>{{'Thông tin về tòa soạn'|_}}</h4>
+                                <div class="line"></div>
+                            </div>
+                            <p>{{'Ngày thành lập: 15/07/2020'|_}}</p>
+                            
+                            <p>{{'Cơ quan chủ quản: Nhóm sinh viên'|_}}</p>
+                            <p>{{'Tổng biên tập: Lê Quang Thuận'|_}}</p>
+                            <p>{{'Giấy phép: Chưa có'|_}}</p>
+                            
+                            <hr>
+                           
+                            <p>{{'Trụ sở'|_}}</p>
+                            <p>{{'140 Lê Trọng Tấn, Phường Tây Thạnh, TP.HCM'|_}}</p>
+                            <p>{{'Điện thoại: 0944005xxx'|_}}</p>
+                            <hr>
+                            <p>{{'Liên hệ quảng cáo: 0944005xxx'|_}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Contact Area End ##### -->";s:4:"code";N;s:5:"title";s:7:"contact";s:3:"url";s:8:"/contact";s:6:"layout";s:4:"main";s:9:"is_hidden";s:1:"0";s:53:"GrofGraf\ContactMe\Components\ContactForm contactForm";a:1:{s:6:"loadJS";s:1:"1";}}}

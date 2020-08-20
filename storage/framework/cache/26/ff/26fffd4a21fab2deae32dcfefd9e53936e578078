@@ -1,0 +1,535 @@
+1597391599a:1:{s:9:"index.htm";a:13:{s:8:"fileName";s:9:"index.htm";s:7:"content";s:14069:"title = "index"
+url = "/"
+layout = "main"
+is_hidden = 0
+
+[blogCategories]
+slug = "{{ :slug }}"
+displayEmpty = 1
+categoryPage = "blogs"
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 15
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "blogs"
+postPage = "blog-detail"
+
+[blogTagSearch]
+tag = "tin nóng"
+page = "1"
+resultsPerPage = 5
+postPage = "blog-detail"
+categoryPage = "blog-detail"
+
+[commentsPost]
+==
+
+{%set post_1 = blogPosts.posts%}
+{% set cmtpost = commentsPost.posts %}
+<!-- ##### Hero Area Start ##### -->
+
+    <section class="hero--area section-padding-80">
+        <div class="container">
+            <div class="row no-gutters">
+               
+                <div class="col-12 col-md-7 col-lg-8">
+                    <div class="tab-content">
+                        {% for post in post_1 | slice(0, 6) %}
+                        <div class="tab-pane fade show{%if loop.index==1 %} active{% endif %}" id="post-{{loop.index}}" role="tabpanel" aria-labelledby="post-{{loop.index}}-tab">
+                            <!-- Single Feature Post -->
+                            <div class="single-feature-post video-post bg-img" style="background-image: url({{post.featured_images[0].getThumb(740, 500, 'crop')}})">
+                                
+                                <!-- Play Button -->
+
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                    <p style="color: white;">{{post.excerpt}}</p>
+                                    <div class="post-meta d-flex">
+                                                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <ul class="nav vizew-nav-tab" role="tablist">
+                        {% for post in post_1 | slice(0, 6) %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if loop.index==1 %} active{% endif %}" id="post-{{loop.index}}-tab" data-toggle="pill" href="#post-{{loop.index}}" role="tab" aria-controls="post-{{loop.index}}" aria-selected="true">
+                                <!-- Single Blog Post -->
+                                <div class="single-blog-post style-2 d-flex align-items-center">
+                                    <div class="post-thumbnail">
+                                        <img src="{{post.featured_images[0].getThumb(740, 500, 'crop')}}" alt="">
+                                    </div>
+                                    <div class="post-content">
+                                        <h6 class="post-title">{{post.title}}</h6>
+                                        <div class="post-meta d-flex justify-content-between">
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Hero Area End ##### -->
+
+    <!-- ##### Trending Posts Area Start ##### -->
+    <section class="trending-posts-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Section Heading -->
+                    <div class="section-heading">
+                        <h4>{{'Tin mới'|_}}</h4>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="row">
+                {% for post in post_1 | slice(6, 6) %}
+                <!-- Single Blog Post -->
+                <div class="col-12 col-md-4">
+                    <div class="single-post-area mb-80">
+                        <!-- Post Thumbnail -->
+                        <div class="post-thumbnail">
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}">
+                                <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                    title="{{ image.title != null ? image.title : post.title }}">
+                            </a>
+
+                            <!-- Video Duration -->
+                            
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="post-content">
+                           
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                            <p>{{post.excerpt}}</p>
+                            <div class="post-meta d-flex">
+                           
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </section>
+    <!-- ##### Trending Posts Area End ##### -->
+
+    <!-- ##### Vizew Post Area Start ##### -->
+    <section class="vizew-post-area mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-7 col-lg-8">
+                    <div class="all-posts-area">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2">
+                            <h4>{{'Hình ảnh'|_}}</h4>
+                            <div class="line"></div>
+                        </div>
+
+                        <!-- Featured Post Slides -->
+                        <div class="featured-post-slides owl-carousel mb-30">
+                            <!-- Single Feature Post -->
+                            {% for post in post_1 | slice(10, 6) %} 
+                            <div class="single-feature-post video-post bg-img" style="background-image: url({{post.featured_images[0].getThumb(350, 208, 'crop')}})">                            
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex">
+                                
+                                 
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                
+
+                        <div class="row">
+                            {% for category in blogCategories.categories %}
+                            <div class="col-12 col-lg-6">
+                                <!-- Section Heading -->
+                                
+                                <div class="section-heading style-2">
+                                    <h5>{{ category.name }}</h5>
+                                    <div class="line"></div>
+                                </div>
+                                {% for post in category.posts %}
+                                <!-- Sports Video Slides -->
+                                <div class="sport-video-slides owl-carousel">
+                                    <!-- Single Blog Post -->
+                                    <div class="single-blog-post style-3 d-flex mb-50">
+                                        <div class="post-thumbnail">
+                                            <a href="{{'blog-detail'|page({slug:post.slug})}}">
+                                                <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                                    title="{{ image.title != null ? image.title : post.title }}">
+                                            </a>
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                            <div class="post-meta d-flex justify-content-between">
+                                             
+                                            </div>
+                                        </div>
+                                    </div>                               
+                                </div>    
+                                {% endfor %}                                                          
+                            </div>
+                            {% endfor %}                            
+
+                        </div>
+
+
+                   
+
+               
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <div class="sidebar-area">
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget followers-widget mb-50">
+                            <a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span class="counter">198</span><span>Fan</span></a>
+                            <a href="#" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i><span class="counter">220</span><span>Followers</span></a>
+                            <a href="#" class="google"><i class="fa fa-google" aria-hidden="true"></i><span class="counter">140</span><span>Subscribe</span></a>
+                        </div>
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget latest-video-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h5>{{'Tin nóng'|_}}</h5>
+                                <div class="line"></div>
+                            </div>                    
+                            {% for post in blogTagSearch.posts| slice(0, 6) %}
+                            <!-- Single Blog Post -->
+                            <div class="single-blog-post d-flex">
+                                <div class="post-thumbnail">
+                                    <a href="{{ post.url }}">
+                                        <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                    
+                                </div>
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex justify-content-between">
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h5>{{'Tin mới'|_}}</h5>
+                                <div class="line"></div>
+                            </div>
+                            {% for post in blogPosts.posts | slice(0, 6) %}  
+                            <!-- Single Blog Post -->
+                            <div class="single-blog-post d-flex">
+                                <div class="post-thumbnail">
+                                  
+                                    <a href="{{ post.url }}">
+                                        <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex justify-content-between">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>";s:5:"mtime";i:1597077119;s:6:"markup";s:13595:"{%set post_1 = blogPosts.posts%}
+{% set cmtpost = commentsPost.posts %}
+<!-- ##### Hero Area Start ##### -->
+
+    <section class="hero--area section-padding-80">
+        <div class="container">
+            <div class="row no-gutters">
+               
+                <div class="col-12 col-md-7 col-lg-8">
+                    <div class="tab-content">
+                        {% for post in post_1 | slice(0, 6) %}
+                        <div class="tab-pane fade show{%if loop.index==1 %} active{% endif %}" id="post-{{loop.index}}" role="tabpanel" aria-labelledby="post-{{loop.index}}-tab">
+                            <!-- Single Feature Post -->
+                            <div class="single-feature-post video-post bg-img" style="background-image: url({{post.featured_images[0].getThumb(740, 500, 'crop')}})">
+                                
+                                <!-- Play Button -->
+
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                    <p style="color: white;">{{post.excerpt}}</p>
+                                    <div class="post-meta d-flex">
+                                                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <ul class="nav vizew-nav-tab" role="tablist">
+                        {% for post in post_1 | slice(0, 6) %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if loop.index==1 %} active{% endif %}" id="post-{{loop.index}}-tab" data-toggle="pill" href="#post-{{loop.index}}" role="tab" aria-controls="post-{{loop.index}}" aria-selected="true">
+                                <!-- Single Blog Post -->
+                                <div class="single-blog-post style-2 d-flex align-items-center">
+                                    <div class="post-thumbnail">
+                                        <img src="{{post.featured_images[0].getThumb(740, 500, 'crop')}}" alt="">
+                                    </div>
+                                    <div class="post-content">
+                                        <h6 class="post-title">{{post.title}}</h6>
+                                        <div class="post-meta d-flex justify-content-between">
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Hero Area End ##### -->
+
+    <!-- ##### Trending Posts Area Start ##### -->
+    <section class="trending-posts-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Section Heading -->
+                    <div class="section-heading">
+                        <h4>{{'Tin mới'|_}}</h4>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="row">
+                {% for post in post_1 | slice(6, 6) %}
+                <!-- Single Blog Post -->
+                <div class="col-12 col-md-4">
+                    <div class="single-post-area mb-80">
+                        <!-- Post Thumbnail -->
+                        <div class="post-thumbnail">
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}">
+                                <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                    title="{{ image.title != null ? image.title : post.title }}">
+                            </a>
+
+                            <!-- Video Duration -->
+                            
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="post-content">
+                           
+                            <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                            <p>{{post.excerpt}}</p>
+                            <div class="post-meta d-flex">
+                           
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </section>
+    <!-- ##### Trending Posts Area End ##### -->
+
+    <!-- ##### Vizew Post Area Start ##### -->
+    <section class="vizew-post-area mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-7 col-lg-8">
+                    <div class="all-posts-area">
+                        <!-- Section Heading -->
+                        <div class="section-heading style-2">
+                            <h4>{{'Hình ảnh'|_}}</h4>
+                            <div class="line"></div>
+                        </div>
+
+                        <!-- Featured Post Slides -->
+                        <div class="featured-post-slides owl-carousel mb-30">
+                            <!-- Single Feature Post -->
+                            {% for post in post_1 | slice(10, 6) %} 
+                            <div class="single-feature-post video-post bg-img" style="background-image: url({{post.featured_images[0].getThumb(350, 208, 'crop')}})">                            
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex">
+                                
+                                 
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                
+
+                        <div class="row">
+                            {% for category in blogCategories.categories %}
+                            <div class="col-12 col-lg-6">
+                                <!-- Section Heading -->
+                                
+                                <div class="section-heading style-2">
+                                    <h5>{{ category.name }}</h5>
+                                    <div class="line"></div>
+                                </div>
+                                {% for post in category.posts %}
+                                <!-- Sports Video Slides -->
+                                <div class="sport-video-slides owl-carousel">
+                                    <!-- Single Blog Post -->
+                                    <div class="single-blog-post style-3 d-flex mb-50">
+                                        <div class="post-thumbnail">
+                                            <a href="{{'blog-detail'|page({slug:post.slug})}}">
+                                                <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                                    alt="{ image.description != null ? image.description : image.filename }}"
+                                                    title="{{ image.title != null ? image.title : post.title }}">
+                                            </a>
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="{{'blog-detail'|page({slug:post.slug})}}" class="post-title">{{post.title}}</a>
+                                            <div class="post-meta d-flex justify-content-between">
+                                             
+                                            </div>
+                                        </div>
+                                    </div>                               
+                                </div>    
+                                {% endfor %}                                                          
+                            </div>
+                            {% endfor %}                            
+
+                        </div>
+
+
+                   
+
+               
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    <div class="sidebar-area">
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget followers-widget mb-50">
+                            <a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span class="counter">198</span><span>Fan</span></a>
+                            <a href="#" class="twitter"><i class="fa fa-twitter" aria-hidden="true"></i><span class="counter">220</span><span>Followers</span></a>
+                            <a href="#" class="google"><i class="fa fa-google" aria-hidden="true"></i><span class="counter">140</span><span>Subscribe</span></a>
+                        </div>
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget latest-video-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h5>{{'Tin nóng'|_}}</h5>
+                                <div class="line"></div>
+                            </div>                    
+                            {% for post in blogTagSearch.posts| slice(0, 6) %}
+                            <!-- Single Blog Post -->
+                            <div class="single-blog-post d-flex">
+                                <div class="post-thumbnail">
+                                    <a href="{{ post.url }}">
+                                        <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                    
+                                </div>
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex justify-content-between">
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- ***** Single Widget ***** -->
+                        <div class="single-widget mb-50">
+                            <!-- Section Heading -->
+                            <div class="section-heading style-2 mb-30">
+                                <h5>{{'Tin mới'|_}}</h5>
+                                <div class="line"></div>
+                            </div>
+                            {% for post in blogPosts.posts | slice(0, 6) %}  
+                            <!-- Single Blog Post -->
+                            <div class="single-blog-post d-flex">
+                                <div class="post-thumbnail">
+                                  
+                                    <a href="{{ post.url }}">
+                                        <img class="img" src="{{post.featured_images[0].getThumb(350, 208, 'crop')}}"
+                                            alt="{ image.description != null ? image.description : image.filename }}"
+                                            title="{{ image.title != null ? image.title : post.title }}">
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <a href="{{'blog-detail'|page({slug:post.slug})}}" style="font-size: inherit;" class="post-title">{{post.title}}</a>
+                                    <div class="post-meta d-flex justify-content-between">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>";s:4:"code";N;s:5:"title";s:5:"index";s:3:"url";s:1:"/";s:6:"layout";s:4:"main";s:9:"is_hidden";s:1:"0";s:14:"blogCategories";a:3:{s:4:"slug";s:11:"{{ :slug }}";s:12:"displayEmpty";s:1:"1";s:12:"categoryPage";s:5:"blogs";}s:9:"blogPosts";a:6:{s:10:"pageNumber";s:11:"{{ :page }}";s:12:"postsPerPage";s:2:"15";s:14:"noPostsMessage";s:14:"No posts found";s:9:"sortOrder";s:17:"published_at desc";s:12:"categoryPage";s:5:"blogs";s:8:"postPage";s:11:"blog-detail";}s:13:"blogTagSearch";a:5:{s:3:"tag";s:9:"tin nóng";s:4:"page";s:1:"1";s:14:"resultsPerPage";s:1:"5";s:8:"postPage";s:11:"blog-detail";s:12:"categoryPage";s:11:"blog-detail";}s:12:"commentsPost";a:0:{}}}
